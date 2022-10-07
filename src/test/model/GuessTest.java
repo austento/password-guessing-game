@@ -9,33 +9,26 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GuessTest {
     private Guess testGuess;
-    private int numCorrect;
-    private int numCorrectPos;
-    private ArrayList guessContent;
-    private String hint;
     private Password testPass;
 
     @BeforeEach
     void runBefore() {
         testGuess = new Guess("abcdef");
-        numCorrect = testGuess.getNumCharactersCorrect();
-        numCorrectPos = testGuess.getNumCharactersCorrectPos();
-        guessContent = testGuess.getGuessContent();
-        hint = testGuess.getHint();
         testPass = new Password();
     }
 
     @Test
     void testUpdateHintNoneCorrect() {
         testGuess.updateHint();
-        assertEquals("You have no correct characters", hint);
+        assertEquals("None of those characters are in the password", testGuess.getHint());
     }
 
     @Test
     void testUpdateHintNoPos() {
         testGuess.setNumCharactersCorrect(2);
         testGuess.updateHint();
-        assertEquals("You have 2 correct characters, but none are in the correct position", hint);
+        assertEquals("2 of those characters are in the password, but none are in their correct position",
+                testGuess.getHint());
     }
 
     @Test
@@ -43,31 +36,32 @@ public class GuessTest {
         testGuess.setNumCharactersCorrect(4);
         testGuess.setNumCharactersCorrectPos(3);
         testGuess.updateHint();
-        assertEquals("You have 4 correct characters, and 3 are in the correct position" , hint);
+        assertEquals("4 of those characters are in the password, and 3 are in their correct position" ,
+                testGuess.getHint());
     }
 
     @Test
     void testCompareNoMatches() {
         testPass.setPasswordContent("ghijkl");
         testGuess.compareToPassword(testPass);
-        assertEquals(0, numCorrect);
-        assertEquals(0, numCorrectPos);
+        assertEquals(0, testGuess.getNumCharactersCorrect());
+        assertEquals(0, testGuess.getNumCharactersCorrectPos());
     }
 
     @Test
     void testCompareNoPositionMatches() {
         testPass.setPasswordContent("zzzabc");
         testGuess.compareToPassword(testPass);
-        assertEquals(3, numCorrect);
-        assertEquals(0, numCorrect);
+        assertEquals(3, testGuess.getNumCharactersCorrect());
+        assertEquals(0, testGuess.getNumCharactersCorrectPos());
     }
 
     @Test
     void testComparePositionMatches() {
         testPass.setPasswordContent("abzzzc");
         testGuess.compareToPassword(testPass);
-        assertEquals(3, numCorrect);
-        assertEquals(2,numCorrectPos);
+        assertEquals(3, testGuess.getNumCharactersCorrect());
+        assertEquals(2, testGuess.getNumCharactersCorrectPos());
     }
 
     @Test

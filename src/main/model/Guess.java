@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+
 import model.Password;
 
 // Represents a guess made by the user
@@ -26,27 +27,27 @@ public class Guess {
     }
 
     public String getHint() {
-        return " ";
+        return hint;
     }
 
     public int getNumCharactersCorrect() {
-        return 0;
+        return numCharactersCorrect;
     }
 
     public int getNumCharactersCorrectPos() {
-        return 0;
+        return numCharactersCorrectPos;
     }
 
-    public ArrayList getGuessContent() {
-        return new ArrayList<>();
+    public ArrayList<Character> getGuessContent() {
+        return guessContent;
     }
 
     public void setNumCharactersCorrect(int num) {
-        // stub
+        numCharactersCorrect = num;
     }
 
     public void setNumCharactersCorrectPos(int num) {
-        // stub
+        numCharactersCorrectPos = num;
     }
 
     // MODIFIES: this
@@ -56,13 +57,34 @@ public class Guess {
     //          updates numCharactersCorrectPos based on how many char in the right position
     //          if password and guess match completely, sets password status to guessed
     public void compareToPassword(Password pass) {
-        // stub
+        if (guessContent.equals(pass.getPasswordContent())) {
+            pass.setIsGuessed(true);
+        } else {
+            for (int i = 0; i < Password.LENGTH; i++) {
+                char guessChar = guessContent.get(i);
+                if (pass.getPasswordContent().contains(guessChar)) {
+                    numCharactersCorrect++;
+                    if (pass.getPasswordContent().get(i) == guessChar) {
+                        numCharactersCorrectPos++;
+                    }
+                }
+            }
+        }
     }
 
     // MODIFIES: this
     // EFFECTS: creates a String using info from numCharactersCorrect, numCharactersCorrectPos
     //          sets hint as created string
     public void updateHint() {
-        // stub
+        if (numCharactersCorrect == 0) {
+            hint = "None of those characters are in the password";
+        } else {
+            hint = numCharactersCorrect + " of those characters are in the password,";
+            if (numCharactersCorrectPos == 0) {
+                hint = hint + " but none are in their correct position";
+            } else {
+                hint = hint + " and " + numCharactersCorrectPos + " are in their correct position";
+            }
+        }
     }
 }
