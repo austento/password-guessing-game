@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 // Represents a password for the user to guess
 public class Password {
@@ -12,36 +13,47 @@ public class Password {
     private boolean isGuessed;
 
     // EFFECTS: creates a new password
-    //          charGuessed is set to 0
-    //          charNotGuessed is set to LENGTH
+    //          charGuessed set to 0
+    //          charNotGuessed set to LENGTH
+    //          isGuessed set to false
+    // *Need source for random character generator
     public Password() {
-        // stub
+        charGuessed = 0;
+        charNotGuessed = LENGTH;
+        isGuessed = false;
+        passwordContent = new ArrayList<Character>();
+
+        for (int i = 0; i < LENGTH; i++) {
+            Random r = new Random();
+            Character randChar = (char) (r.nextInt(26) + 'a');
+            passwordContent.add(randChar);
+        }
     }
 
     public int getCharGuessed() {
-        return 0;
-        // stub
+        return charGuessed;
     }
 
     public int getCharNotGuessed() {
-        return 0;
-        // stub
+        return charNotGuessed;
     }
 
-    public ArrayList getPasswordContent() {
-        return new ArrayList<>();
+    public ArrayList<Character> getPasswordContent() {
+        return passwordContent;
     }
 
     public void setPasswordContent(String userInput) {
-        // stub
+        for (int i = 0; i < userInput.length(); i++) {
+            passwordContent.set(i, userInput.charAt(i));
+        }
     }
 
     public boolean getIsGuessed() {
-        return false;
+        return isGuessed;
     }
 
-    public void setIsGuessed() {
-        // stub
+    public void setIsGuessed(boolean value) {
+        isGuessed = value;
     }
 
     // REQUIRES: 0 < correctChar >= LENGTH
@@ -49,7 +61,8 @@ public class Password {
     // EFFECTS: updates the number of guessed characters in the password
     //          removes # of guessed characters from charNotGuessed
     public void updateCharGuessed(int correctChar) {
-        // stub
+        charGuessed = charGuessed + correctChar;
+        charNotGuessed = charNotGuessed - correctChar;
     }
 
 }

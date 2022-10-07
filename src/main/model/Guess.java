@@ -13,13 +13,20 @@ public class Guess {
     // REQUIRES: user input length to be equal to Password.LENGTH
     // EFFECTS: creates a new guess using keyboard input from the user
     //          hint starts as an empty string
+    //          char correct and in correct position start at 0
     public Guess(String userInput) {
-        // stub
+        guessContent = new ArrayList<>();
+        numCharactersCorrect = 0;
+        numCharactersCorrectPos = 0;
+        hint = "";
+
+        for (int i = 0; i < Password.LENGTH; i++) {
+            guessContent.add(userInput.charAt(i));
+        }
     }
 
     public String getHint() {
         return " ";
-        // stub
     }
 
     public int getNumCharactersCorrect() {
