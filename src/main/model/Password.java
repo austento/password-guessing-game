@@ -27,9 +27,15 @@ public class Password {
         // stub
     }
 
+    public ArrayList getPasswordContent() {
+        return new ArrayList<>();
+    }
+
+    // REQUIRES: 0 < correctChar >= LENGTH
     // MODIFIES: this
     // EFFECTS: updates the number of guessed characters in the password
-    public void updateCharGuessed() {
+    //          removes # of guessed characters from charNotGuessed
+    public void updateCharGuessed(int correctChar) {
         // stub
     }
 
