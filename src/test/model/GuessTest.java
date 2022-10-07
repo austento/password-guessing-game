@@ -48,6 +48,7 @@ public class GuessTest {
 
     @Test
     void testCompareNoMatches() {
+        testPass.setPasswordContent("ghijkl");
         testGuess.compareToPassword(testPass);
         assertEquals(0, numCorrect);
         assertEquals(0, numCorrectPos);
@@ -55,6 +56,7 @@ public class GuessTest {
 
     @Test
     void testCompareNoPositionMatches() {
+        testPass.setPasswordContent("zzzabc");
         testGuess.compareToPassword(testPass);
         assertEquals(3, numCorrect);
         assertEquals(0, numCorrect);
@@ -62,6 +64,7 @@ public class GuessTest {
 
     @Test
     void testComparePositionMatches() {
+        testPass.setPasswordContent("abzzzc");
         testGuess.compareToPassword(testPass);
         assertEquals(3, numCorrect);
         assertEquals(2,numCorrectPos);
@@ -69,6 +72,7 @@ public class GuessTest {
 
     @Test
     void testCompareFullMatch() {
+        testPass.setPasswordContent("abcdef");
         testGuess.compareToPassword(testPass);
         assertTrue(testPass.getIsGuessed());
     }

@@ -32,6 +32,10 @@ public class Password {
         return new ArrayList<>();
     }
 
+    public void setPasswordContent(String userInput) {
+        // stub
+    }
+
     public boolean getIsGuessed() {
         return false;
     }
