@@ -9,6 +9,7 @@ public class Password {
     private int charGuessed;
     private int charNotGuessed;
     private ArrayList<Character> passwordContent;
+    private boolean isGuessed;
 
     // EFFECTS: creates a new password
     //          charGuessed is set to 0
@@ -29,6 +30,14 @@ public class Password {
 
     public ArrayList getPasswordContent() {
         return new ArrayList<>();
+    }
+
+    public boolean getIsGuessed() {
+        return false;
+    }
+
+    public void setIsGuessed() {
+        // stub
     }
 
     // REQUIRES: 0 < correctChar >= LENGTH

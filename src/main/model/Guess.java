@@ -12,8 +12,8 @@ public class Guess {
 
     // REQUIRES: user input length to be equal to Password.LENGTH
     // EFFECTS: creates a new guess using keyboard input from the user
-    //          hints starts as an empty string
-    public Guess() {
+    //          hint starts as an empty string
+    public Guess(String userInput) {
         // stub
     }
 
@@ -30,10 +30,24 @@ public class Guess {
         return 0;
     }
 
+    public ArrayList getGuessContent() {
+        return new ArrayList<>();
+    }
+
+    public void setNumCharactersCorrect(int num) {
+        // stub
+    }
+
+    public void setNumCharactersCorrectPos(int num) {
+        // stub
+    }
+
     // MODIFIES: this
+    //           Password
     // EFFECTS: compares guessContent to passwordContent of Password passed as param
     //          updates numCharactersCorrect based on how many characters are correct
     //          updates numCharactersCorrectPos based on how many char in the right position
+    //          if password and guess match completely, sets password status to guessed
     public void compareToPassword(Password pass) {
         // stub
     }
