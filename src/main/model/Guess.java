@@ -30,10 +30,17 @@ public class Guess {
         return 0;
     }
 
+    // MODIFIES: this
+    // EFFECTS: compares guessContent to passwordContent of Password passed as param
+    //          updates numCharactersCorrect based on how many characters are correct
+    //          updates numCharactersCorrectPos based on how many char in the right position
     public void compareToPassword(Password pass) {
         // stub
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates a String using info from numCharactersCorrect, numCharactersCorrectPos
+    //          sets hint as created string
     public void updateHint() {
         // stub
     }
