@@ -42,6 +42,8 @@ public class Password {
         return passwordContent;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the password content to a specific sequence
     public void setPasswordContent(String userInput) {
         for (int i = 0; i < userInput.length(); i++) {
             passwordContent.set(i, userInput.charAt(i));

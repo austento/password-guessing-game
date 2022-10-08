@@ -73,7 +73,7 @@ public class Guess {
     }
 
     // MODIFIES: this
-    // EFFECTS: creates a String using info from numCharactersCorrect, numCharactersCorrectPos
+    // EFFECTS: creates a String using numCharactersCorrect and numCharactersCorrectPos
     //          sets hint as created string
     public void updateHint() {
         if (numCharactersCorrect == 0) {
