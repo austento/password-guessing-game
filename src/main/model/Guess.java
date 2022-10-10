@@ -87,4 +87,11 @@ public class Guess {
             }
         }
     }
+
+    // MODIFIES: this
+    // EFFECTS: creates a String representation of a Guess object
+    @Override
+    public String toString() {
+        return "You guessed: " + guessContent.toString() + "\n" + hint;
+    }
 }

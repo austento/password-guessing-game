@@ -71,4 +71,13 @@ public class GuessTest {
         assertTrue(testPass.getIsGuessed());
     }
 
+    @Test
+    void testToString() {
+        testPass.setPasswordContent("abzzzc");
+        testGuess.compareToPassword(testPass);
+        testGuess.updateHint();
+        assertEquals(testGuess.toString(), "You guessed: [a, b, c, d, e, f]"
+                + "\n" + "3 of those characters are in the password, and 2 are in their correct position");
+    }
+
 }
