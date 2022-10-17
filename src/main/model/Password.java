@@ -12,16 +12,16 @@ public class Password {
     private ArrayList<Character> passwordContent;
     private boolean isGuessed;
 
-    // EFFECTS: creates a new password
-    //          charGuessed set to 0
-    //          charNotGuessed set to LENGTH
-    //          isGuessed set to false
-    // *Need source for random character generator
+    //EFFECTS: creates a new password
+    //         charGuessed set to 0
+    //         charNotGuessed set to LENGTH
+    //         isGuessed set to false
+    // random char generator from: https://programming.guide/java/generate-random-character.html
     public Password() {
         charGuessed = 0;
         charNotGuessed = LENGTH;
         isGuessed = false;
-        passwordContent = new ArrayList<Character>();
+        passwordContent = new ArrayList<>();
 
         for (int i = 0; i < LENGTH; i++) {
             Random r = new Random();
@@ -42,8 +42,8 @@ public class Password {
         return passwordContent;
     }
 
-    // MODIFIES: this
-    // EFFECTS: sets the password content to a specific sequence
+    //MODIFIES: this
+    //EFFECTS: sets the password content to a specific sequence
     public void setPasswordContent(String userInput) {
         for (int i = 0; i < userInput.length(); i++) {
             passwordContent.set(i, userInput.charAt(i));
@@ -58,13 +58,13 @@ public class Password {
         isGuessed = value;
     }
 
-    // REQUIRES: 0 < correctChar >= LENGTH
-    // MODIFIES: this
-    // EFFECTS: updates the number of guessed characters in the password
-    //          removes # of guessed characters from charNotGuessed
+    //REQUIRES: 0 < correctChar >= LENGTH
+    //MODIFIES: this
+    //EFFECTS: updates the number of guessed characters in the password
+    //         removes # of guessed characters from charNotGuessed
     public void updateCharGuessed(int correctChar) {
-        charGuessed = charGuessed + correctChar;
-        charNotGuessed = charNotGuessed - correctChar;
+        charGuessed += correctChar;
+        charNotGuessed -= correctChar;
     }
 
 }

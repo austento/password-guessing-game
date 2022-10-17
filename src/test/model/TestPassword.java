@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class PasswordTest {
+class TestPassword {
     private Password pw;
     private int exampleNum;
 

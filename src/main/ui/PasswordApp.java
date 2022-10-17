@@ -6,19 +6,20 @@ import model.Password;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// Represents the password application
+// Represents the password application - modelled after TellerApp class in Teller application provided
 public class PasswordApp {
     private Password password;
     private ArrayList<Guess> pastGuesses;
     private Scanner input;
     private String userInput;
 
+    //EFFECTS: constructs a new password app
     public PasswordApp() {
         runPassApp();
     }
 
-    // MODIFIES: this
-    // EFFECTS: runs the password app and processes user input
+    //MODIFIES: this
+    //EFFECTS: runs the password app and processes user input
     private void runPassApp() {
         boolean keepRunning = true;
         input = new Scanner(System.in);
@@ -45,7 +46,7 @@ public class PasswordApp {
         System.out.println("\tq --> quit");
     }
 
-    // EFFECTS: displays the in-game menu
+    //EFFECTS: displays the in-game menu
     private void displayGameMenu() {
         System.out.println("\nTry to guess the password!");
         System.out.println("\tg --> make a guess");
@@ -53,14 +54,15 @@ public class PasswordApp {
         System.out.println("\tm --> give up and return to main menu");
     }
 
-    // MODIFIES: this
-    // EFFECTS: runs a new game
-    //          creates a new password for the user to guess
-    //          processes user input related to the game
+    //MODIFIES: this
+    //EFFECTS: runs a new game
+    //         creates a new password for the user to guess
+    //         processes user input related to the game
     private void runNewGame() {
         password = new Password();
         pastGuesses = new ArrayList<>();
         userInput = null;
+        password.setPasswordContent("scooby");
         while (!password.getIsGuessed()) {
             displayGameMenu();
             userInput = input.next();
@@ -80,10 +82,10 @@ public class PasswordApp {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: creates a new guess using the user's input
-    //          compares guess to password
-    //          stops game if password is guessed
+    //MODIFIES: this
+    //EFFECTS: creates a new guess using the user's input
+    //         compares guess to password
+    //         stops game if password is guessed
     private void makeAGuess() {
         System.out.println("Please enter your " + Password.LENGTH + " character guess:");
         userInput = input.next();
@@ -103,8 +105,8 @@ public class PasswordApp {
         }
     }
 
-    // EFFECTS: displays each of the past guesses a user has made
-    //          if no guesses exist, tells the user they have not made any guesses
+    //EFFECTS: displays each of the past guesses a user has made
+    //         if no guesses exist, tells the user they have not made any guesses
     private void displayPastGuesses() {
         if (pastGuesses.size() == 0) {
             System.out.println("You have not made any guesses!");
@@ -116,14 +118,11 @@ public class PasswordApp {
         }
     }
 
-    // EFFECTS: calculates and displays a score
+    //not complete - want to make more complex
+    //EFFECTS: calculates and displays a score
     private void displayScore() {
         double score = 100;
-        for (Guess guess: pastGuesses) {
-            if (pastGuesses.indexOf(guess) <= 10) {
-                score -= (double) (1 / 100) * (pastGuesses.indexOf(guess));
-            } // stub
-        }
+        score -= pastGuesses.size();
         System.out.println("Your score is: " + score);
     }
 }
