@@ -62,7 +62,6 @@ public class PasswordApp {
         password = new Password();
         pastGuesses = new ArrayList<>();
         userInput = null;
-        password.setPasswordContent("scooby");
         while (!password.getIsGuessed()) {
             displayGameMenu();
             userInput = input.next();
