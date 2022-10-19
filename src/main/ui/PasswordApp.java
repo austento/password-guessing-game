@@ -1,15 +1,15 @@
 package ui;
 
-import model.Guess;
-import model.Password;
+import model.AlphaGuess;
+import model.AlphaPassword;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 // Represents the password application - modelled after TellerApp class in Teller application provided
 public class PasswordApp {
-    private Password password;
-    private ArrayList<Guess> pastGuesses;
+    private AlphaPassword password;
+    private ArrayList<AlphaGuess> pastGuesses;
     private Scanner input;
     private String userInput;
 
@@ -59,7 +59,7 @@ public class PasswordApp {
     //         creates a new password for the user to guess
     //         processes user input related to the game
     private void runNewGame() {
-        password = new Password();
+        password = new AlphaPassword();
         pastGuesses = new ArrayList<>();
         userInput = null;
         while (!password.getIsGuessed()) {
@@ -86,12 +86,12 @@ public class PasswordApp {
     //         compares guess to password
     //         stops game if password is guessed
     private void makeAGuess() {
-        System.out.println("Please enter your " + Password.LENGTH + " character guess:");
+        System.out.println("Please enter your " + AlphaPassword.LENGTH + " character guess:");
         userInput = input.next();
-        if (userInput.length() < Password.LENGTH) {
-            System.out.println("Your guess has to be " + Password.LENGTH + " characters long!");
+        if (userInput.length() < AlphaPassword.LENGTH) {
+            System.out.println("Your guess has to be " + AlphaPassword.LENGTH + " characters long!");
         } else {
-            Guess currentGuess = new Guess(userInput);
+            AlphaGuess currentGuess = new AlphaGuess(userInput);
             currentGuess.compareToPassword(password);
             if (!password.getIsGuessed()) {
                 currentGuess.updateHint();
@@ -111,7 +111,7 @@ public class PasswordApp {
             System.out.println("You have not made any guesses!");
         } else {
             System.out.println("These are your past guesses:");
-            for (Guess pastGuess : pastGuesses) {
+            for (AlphaGuess pastGuess : pastGuesses) {
                 System.out.println(pastGuess);
             }
         }

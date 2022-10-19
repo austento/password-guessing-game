@@ -8,28 +8,28 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class TestPassword {
-    private Password pw;
+class TestAlphaPassword {
+    private AlphaPassword pw;
     private int exampleNum;
 
     @BeforeEach
     void runBefore() {
-        pw = new Password();
-        exampleNum = Password.LENGTH - 1;
+        pw = new AlphaPassword();
+        exampleNum = AlphaPassword.LENGTH - 1;
     }
 
     @Test
     void testPasswordConstructor() {
         assertEquals(0, pw.getCharGuessed());
-        assertEquals(Password.LENGTH, pw.getCharNotGuessed());
-        assertEquals(Password.LENGTH, pw.getPasswordContent().size());
+        assertEquals(AlphaPassword.LENGTH, pw.getCharNotGuessed());
+        assertEquals(AlphaPassword.LENGTH, pw.getPasswordContent().size());
     }
 
     @Test
     void testUpdateCharGuessed() {
         pw.updateCharGuessed(exampleNum);
         assertEquals(exampleNum, pw.getCharGuessed());
-        assertEquals(Password.LENGTH - exampleNum, pw.getCharNotGuessed());
+        assertEquals(AlphaPassword.LENGTH - exampleNum, pw.getCharNotGuessed());
     }
 
     @Test

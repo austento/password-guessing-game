@@ -3,31 +3,18 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
-// Represents a password for the user to guess
-public class Password {
-    public static final int LENGTH = 6;
+public abstract class Password extends Sequence {
+    protected int charGuessed;
+    protected int charNotGuessed;
+    protected boolean isGuessed;
+    protected Random rand;
 
-    private int charGuessed;
-    private int charNotGuessed;
-    private ArrayList<Character> passwordContent;
-    private boolean isGuessed;
-
-    //EFFECTS: creates a new password
-    //         charGuessed set to 0
-    //         charNotGuessed set to LENGTH
-    //         isGuessed set to false
-    // random char generator from: https://programming.guide/java/generate-random-character.html
     public Password() {
+        super();
         charGuessed = 0;
         charNotGuessed = LENGTH;
         isGuessed = false;
-        passwordContent = new ArrayList<>();
-
-        for (int i = 0; i < LENGTH; i++) {
-            Random r = new Random();
-            Character randChar = (char) (r.nextInt(26) + 'a');
-            passwordContent.add(randChar);
-        }
+        rand = new Random();
     }
 
     public int getCharGuessed() {
@@ -39,14 +26,14 @@ public class Password {
     }
 
     public ArrayList<Character> getPasswordContent() {
-        return passwordContent;
+        return content;
     }
 
     //MODIFIES: this
     //EFFECTS: sets the password content to a specific sequence
     public void setPasswordContent(String userInput) {
         for (int i = 0; i < userInput.length(); i++) {
-            passwordContent.set(i, userInput.charAt(i));
+            content.set(i, userInput.charAt(i));
         }
     }
 
@@ -66,5 +53,4 @@ public class Password {
         charGuessed += correctChar;
         charNotGuessed -= correctChar;
     }
-
 }

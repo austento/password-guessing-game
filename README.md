@@ -22,4 +22,8 @@ a hint that is helpful to the user.
 - As a user, I want to be able to view all of my previous guesses and hints while I am still guessing
 - As a user, I want to receive a score after I guess the password correctly
 
+- As a user, I want to choose between kinds of passwords to generate (alpha, numeric, or both)
+
+- As a user, I want to be able to save my progress on guessing a password
+- As a user, I want to be able to reload my progress on guessing an existing password
 
