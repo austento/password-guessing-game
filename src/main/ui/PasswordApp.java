@@ -1,5 +1,9 @@
 package ui;
 
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 // Represents the password application - modelled after TellerApp class in Teller application provided
@@ -7,6 +11,7 @@ public class PasswordApp {
     private PasswordGame passwordGame;
     private Scanner input;
     private String userInput;
+    private JsonReader jsonReader;
 
     //EFFECTS: constructs a new password app
     public PasswordApp() {
@@ -20,18 +25,33 @@ public class PasswordApp {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         userInput = null;
+        jsonReader = new JsonReader(PasswordGame.JSON_STORE);
 
         while (keepRunning) {
             displayMainMenu();
             userInput = input.next();
-            if (userInput.equals("q")) {
-                keepRunning = false;
-            } else {
-                if (userInput.equals("s")) {
+            switch (userInput) {
+                case "q":
+                    keepRunning = false;
+                    break;
+                case "s":
                     passwordGame = new PasswordGame();
                     passwordGame.runNewGame();
-                }
+                    break;
+                case "l":
+                    loadPasswordGame();
+                    passwordGame.runNewGame();
             }
+        }
+    }
+
+    //MODIFIES: this
+    //EFFECTS: loads password game from file
+    public void loadPasswordGame() {
+        try {
+            passwordGame = jsonReader.read();
+        } catch (IOException e) {
+            System.out.println();
         }
     }
 
@@ -39,6 +59,7 @@ public class PasswordApp {
     private void displayMainMenu() {
         System.out.println("\nMain Menu:");
         System.out.println("\ts --> start new game");
+        System.out.println("\tl --> load game");
         System.out.println("\tq --> quit");
     }
 }

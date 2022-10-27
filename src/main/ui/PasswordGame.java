@@ -6,16 +6,27 @@ import model.Guess;
 import model.Password;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 import persistence.Writable;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PasswordGame implements Writable {
+    public static final String JSON_STORE = "./data/passwordgame.json";
+
     private AlphaPassword password;
     private ArrayList<AlphaGuess> pastGuesses;
     private Scanner input;
     private String userInput;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+    private boolean continueGame;
+
+
 
     //EFFECTS: constructs a new password game
     public PasswordGame() {
@@ -24,6 +35,9 @@ public class PasswordGame implements Writable {
         userInput = null;
         password = new AlphaPassword();
         pastGuesses = new ArrayList<>();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+        continueGame = true;
     }
 
     //EFFECTS: displays the in-game menu
@@ -31,6 +45,7 @@ public class PasswordGame implements Writable {
         System.out.println("\nTry to guess the password!");
         System.out.println("\tg --> make a guess");
         System.out.println("\td --> show past guesses");
+        System.out.println("\ts --> save my progress for later and return to main menu");
         System.out.println("\tm --> give up and return to main menu");
     }
 
@@ -39,7 +54,7 @@ public class PasswordGame implements Writable {
     //         creates a new password for the user to guess
     //         processes user input related to the game
     public void runNewGame() {
-        while (!password.getIsGuessed()) {
+        while (continueGame) {
             displayGameMenu();
             userInput = input.next();
             switch (userInput) {
@@ -49,14 +64,39 @@ public class PasswordGame implements Writable {
                 case "d":
                     displayPastGuesses();
                     break;
+                case "s":
+                    savePasswordGame();
+                    continueGame = false;
+                    break;
                 case "m":
                     System.out.println("You have given up on the password" + "\nThe password was "
                             + password.getPasswordContent());
-                    password.setIsGuessed(true);
+                    continueGame = false;
                     break;
             }
         }
     }
+
+    //EFFECTS: saves password game to file
+    public void savePasswordGame() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(this);
+            jsonWriter.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file " + JSON_STORE);
+        }
+    }
+
+//    //MODIFIES: this
+//    //EFFECTS: loads password game from file
+//    public void loadPasswordGame() {
+//        try {
+//            jsonReader.read();
+//        } catch (IOException e) {
+//            System.out.println();
+//        }
+//    }
 
     //MODIFIES: this
     //EFFECTS: creates a new guess using the user's input
@@ -76,6 +116,7 @@ public class PasswordGame implements Writable {
                 System.out.println(currentGuess);
             } else {
                 System.out.println("You have guessed the password!");
+                continueGame = false;
                 displayScore();
             }
         }
