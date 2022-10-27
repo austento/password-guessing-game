@@ -7,7 +7,7 @@ import persistence.Writable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public abstract class Password extends Sequence implements Writable {
+public class Password extends Sequence implements Writable {
     protected int charGuessed;
     protected int charNotGuessed;
     protected boolean isGuessed;
@@ -25,8 +25,16 @@ public abstract class Password extends Sequence implements Writable {
         return charGuessed;
     }
 
+    public void setCharGuessed(int charGuessed) {
+        this.charGuessed = charGuessed;
+    }
+
     public int getCharNotGuessed() {
         return charNotGuessed;
+    }
+
+    public void setCharNotGuessed(int charNotGuessed) {
+        this.charNotGuessed = charNotGuessed;
     }
 
     public ArrayList<Character> getPasswordContent() {
@@ -36,9 +44,14 @@ public abstract class Password extends Sequence implements Writable {
     //MODIFIES: this
     //EFFECTS: sets the password content to a specific sequence
     public void setPasswordContent(String userInput) {
+        content.clear();
         for (int i = 0; i < userInput.length(); i++) {
-            content.set(i, userInput.charAt(i));
+            content.add(i, userInput.charAt(i));
         }
+    }
+
+    public void setPasswordContent(ArrayList<Character> content) {
+        this.content = content;
     }
 
     public boolean getIsGuessed() {
@@ -64,7 +77,7 @@ public abstract class Password extends Sequence implements Writable {
         json.put("charGuessed", charGuessed);
         json.put("charNotGuessed", charNotGuessed);
         json.put("isGuessed", isGuessed);
-        json.put("content", content);
+        json.put("content", contentToString());
 
         return json;
     }

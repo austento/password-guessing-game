@@ -10,4 +10,12 @@ public abstract class Sequence {
     public Sequence() {
         content = new ArrayList<>();
     }
+
+    public String contentToString() {
+        StringBuilder result = new StringBuilder();
+        for (Character c: content) {
+            result.append(c);
+        }
+        return result.toString();
+    }
 }

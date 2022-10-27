@@ -5,7 +5,7 @@ import persistence.Writable;
 
 import java.util.ArrayList;
 
-public abstract class Guess extends Sequence implements Writable {
+public class Guess extends Sequence implements Writable {
     protected int numCharCorrect;
     protected int numCharCorrectPos;
     protected String hint;
@@ -60,6 +60,8 @@ public abstract class Guess extends Sequence implements Writable {
                 }
             }
         }
+        pass.setCharGuessed(numCharCorrectPos);
+        pass.setCharNotGuessed(LENGTH - numCharCorrectPos);
     }
 
     //MODIFIES: this
@@ -90,8 +92,7 @@ public abstract class Guess extends Sequence implements Writable {
         JSONObject json = new JSONObject();
         json.put("numCharCorrect", numCharCorrect);
         json.put("numCharCorrectPos", numCharCorrectPos);
-        json.put("hint",hint);
-        json.put("content", content);
+        json.put("content", contentToString());
 
         return json;
     }

@@ -24,7 +24,6 @@ public class PasswordGame implements Writable {
         userInput = null;
         password = new AlphaPassword();
         pastGuesses = new ArrayList<>();
-        runNewGame();
     }
 
     //EFFECTS: displays the in-game menu
