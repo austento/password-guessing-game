@@ -1,8 +1,6 @@
 package persistence;
 
 import model.AlphaGuess;
-import model.AlphaPassword;
-import model.Guess;
 import ui.PasswordGame;
 
 import org.junit.jupiter.api.Test;

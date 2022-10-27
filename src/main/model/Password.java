@@ -50,10 +50,6 @@ public class Password extends Sequence implements Writable {
         }
     }
 
-    public void setPasswordContent(ArrayList<Character> content) {
-        this.content = content;
-    }
-
     public boolean getIsGuessed() {
         return isGuessed;
     }
