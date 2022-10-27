@@ -2,11 +2,16 @@ package ui;
 
 import model.AlphaGuess;
 import model.AlphaPassword;
+import model.Guess;
+import model.Password;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class PasswordGame {
+public class PasswordGame implements Writable {
     private AlphaPassword password;
     private ArrayList<AlphaGuess> pastGuesses;
     private Scanner input;
@@ -77,6 +82,15 @@ public class PasswordGame {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: makeAGuess with provided string as guess content
+    public void makeAGuess(String content) {
+        AlphaGuess guess = new AlphaGuess(content);
+        guess.compareToPassword(password);
+        guess.updateHint();
+        pastGuesses.add(guess);
+    }
+
     //EFFECTS: displays each of the past guesses a user has made
     //         if no guesses exist, tells the user they have not made any guesses
     private void displayPastGuesses() {
@@ -96,6 +110,33 @@ public class PasswordGame {
         double score = 100;
         score -= pastGuesses.size();
         System.out.println("Your score is: " + score);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("password", password.toJson());
+        json.put("pastGuesses", pastGuessesToJson());
+
+        return json;
+    }
+
+    private JSONArray pastGuessesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Guess g : pastGuesses) {
+            jsonArray.put(g.toJson());
+        }
+
+        return jsonArray;
+    }
+
+    public Password getPassword() {
+        return password;
+    }
+
+    public ArrayList<AlphaGuess> getPastGuesses() {
+        return pastGuesses;
     }
 }
 

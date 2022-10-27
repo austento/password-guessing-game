@@ -1,8 +1,11 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 
-public abstract class Guess extends Sequence {
+public abstract class Guess extends Sequence implements Writable {
     protected int numCharCorrect;
     protected int numCharCorrectPos;
     protected String hint;
@@ -80,5 +83,16 @@ public abstract class Guess extends Sequence {
     @Override
     public String toString() {
         return "You guessed: " + content.toString() + "\n" + hint;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("numCharCorrect", numCharCorrect);
+        json.put("numCharCorrectPos", numCharCorrectPos);
+        json.put("hint",hint);
+        json.put("content", content);
+
+        return json;
     }
 }

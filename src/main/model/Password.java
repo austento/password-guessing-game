@@ -1,9 +1,13 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.Random;
 
-public abstract class Password extends Sequence {
+public abstract class Password extends Sequence implements Writable {
     protected int charGuessed;
     protected int charNotGuessed;
     protected boolean isGuessed;
@@ -52,5 +56,16 @@ public abstract class Password extends Sequence {
     public void updateCharGuessed(int correctChar) {
         charGuessed += correctChar;
         charNotGuessed -= correctChar;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("charGuessed", charGuessed);
+        json.put("charNotGuessed", charNotGuessed);
+        json.put("isGuessed", isGuessed);
+        json.put("content", content);
+
+        return json;
     }
 }

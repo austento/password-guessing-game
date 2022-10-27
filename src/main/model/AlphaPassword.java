@@ -1,5 +1,6 @@
 package model;
 
+
 // Represents a password for the user to guess
 public class AlphaPassword extends Password {
     //EFFECTS: creates a new password
