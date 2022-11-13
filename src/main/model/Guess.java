@@ -3,96 +3,92 @@ package model;
 import org.json.JSONObject;
 import persistence.Writable;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Guess extends Sequence implements Writable {
-    protected int numCharCorrect;
-    protected int numCharCorrectPos;
     protected String hint;
 
-    public Guess() {
-        numCharCorrect = 0;
-        numCharCorrectPos = 0;
+    public Guess(String userInput) {
+        super(userInput);
         hint = "";
+        contentAsElements = contentToElementList();
     }
 
     public String getHint() {
         return hint;
     }
 
-    public int getNumCharCorrect() {
-        return numCharCorrect;
-    }
-
-    public int getNumCharCorrectPos() {
-        return numCharCorrectPos;
-    }
-
-    public ArrayList<Character> getGuessContent() {
+    public String getGuessContent() {
         return content;
-    }
-
-    public void setNumCharCorrect(int num) {
-        numCharCorrect = num;
-    }
-
-    public void setNumCharCorrectPos(int num) {
-        numCharCorrectPos = num;
     }
 
     //MODIFIES: this
     //          Password
-    //EFFECTS: compares guessContent to passwordContent of Password passed as param
-    //         updates numCharactersCorrect based on how many characters are correct
-    //         updates numCharactersCorrectPos based on how many char in the right position
+    //EFFECTS: compares this Guess to Password passed as param
     //         if password and guess match completely, sets password status to guessed
-    public void compareToPassword(AlphaPassword pass) {
+    //         updates Password display as elements of password are guessed
+    //         updates how guess will be displayed to user
+    public void compareToPassword(Password pass) {
         if (content.equals(pass.getPasswordContent())) {
             pass.setIsGuessed(true);
         } else {
-            for (int i = 0; i < AlphaPassword.LENGTH; i++) {
-                char guessChar = content.get(i);
-                if (pass.getPasswordContent().contains(guessChar)) {
-                    numCharCorrect++;
-                    if (pass.getPasswordContent().get(i) == guessChar) {
-                        numCharCorrectPos++;
-                    }
+            List<Character> guessableCharacters = pass.contentToList();
+            checkForCorrectLocation(guessableCharacters, pass);
+            checkForCorrectCharacter(guessableCharacters, pass);
+        }
+        updateHint();
+    }
+
+    //MODIFIES: this
+    //          Password
+    //EFFECTS: checks if any characters in the guess are in the correct location
+    public void checkForCorrectLocation(List<Character> guessableCharacters, Password password) {
+        for (Element element : contentAsElements) {
+            int index = contentAsElements.indexOf(element);
+            Element passElement = password.contentAsElements.get(index);
+
+            if (element.equals(passElement)) {
+                guessableCharacters.remove(element.getCharacter());
+                password.revealCharacter(index, element.getCharacter());
+                element.setDisplayColour(Element.Colour.GREEN);
+            }
+        }
+    }
+
+    //MODIFIES: this
+    //EFFECTS: checks if any characters in the guess appear at any location in the password
+    //         if multiple of the same character is in the guess, but only one is in the password, only the first
+    //         instance of the character counts as appearing in the password
+    public void checkForCorrectCharacter(List<Character> guessableCharacters, Password password) {
+        for (Element element : contentAsElements) {
+            if (element.getDisplayColour() == null) {
+                if (guessableCharacters.contains(element.getCharacter())) {
+                    guessableCharacters.remove(element.getCharacter());
+                    element.setDisplayColour(Element.Colour.YELLOW);
+                } else {
+                    element.setDisplayColour(Element.Colour.RED);
                 }
             }
         }
-        pass.setCharGuessed(numCharCorrectPos);
-        pass.setCharNotGuessed(LENGTH - numCharCorrectPos);
     }
 
     //MODIFIES: this
     //EFFECTS: creates a String using numCharactersCorrect and numCharactersCorrectPos
     //         sets hint as created string
     public void updateHint() {
-        if (numCharCorrect == 0) {
-            hint = "None of those characters are in the password";
-        } else {
-            hint = numCharCorrect + " of those characters are in the password,";
-            if (numCharCorrectPos == 0) {
-                hint = hint + " but none are in their correct position";
-            } else {
-                hint = hint + " and " + numCharCorrectPos + " are in their correct position";
-            }
-        }
-    }
+        StringBuilder result = new StringBuilder();
 
-    //MODIFIES: this
-    //EFFECTS: creates a String representation of a Guess object
-    @Override
-    public String toString() {
-        return "You guessed: " + content.toString() + "\n" + hint;
+        for (Element element : contentAsElements) {
+            result.append(element.toString());
+        }
+
+        hint = result.toString();
     }
 
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("numCharCorrect", numCharCorrect);
-        json.put("numCharCorrectPos", numCharCorrectPos);
-        json.put("content", contentToString());
+        json.put("content", content);
 
         return json;
     }

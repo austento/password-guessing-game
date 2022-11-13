@@ -1,13 +1,13 @@
 package persistence;
 
-import model.AlphaGuess;
+import model.Guess;
 import ui.PasswordGame;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class JsonWriterTest extends JsonTest {
     // Test case from JSONDemo repo provided on EdX
@@ -35,7 +35,7 @@ public class JsonWriterTest extends JsonTest {
 
             JsonReader reader = new JsonReader("./data/testWriterNoPastGuesses.json");
             pg = reader.read();
-            checkPassword("abcdef",0,6,false, pg.getPassword());
+            checkPassword("abcdef",false, pg.getPassword());
             assertEquals(0, pg.getPastGuesses().size());
         } catch (IOException e) {
             fail("Exception should not have been thrown");
@@ -57,17 +57,17 @@ public class JsonWriterTest extends JsonTest {
 
             JsonReader reader = new JsonReader("./data/testWriterSomePastGuesses.json");
             pg = reader.read();
-            checkPassword("adefhi",4, 2, false, pg.getPassword());
-            ArrayList<AlphaGuess> pastGuesses = pg.getPastGuesses();
+            checkPassword("adefhi",false, pg.getPassword());
+            List<Guess> pastGuesses = pg.getPastGuesses();
             assertEquals(3, pastGuesses.size());
-            checkGuess("abcdef",4,1,
-                    "4 of those characters are in the password, and 1 are in their correct position",
+            checkGuess("abcdef",
+                    "a( GREEN )b( RED )c( RED )d( YELLOW )e( YELLOW )f( YELLOW )",
                     pastGuesses.get(0));
-            checkGuess("afedzy",4, 2,
-                    "4 of those characters are in the password, and 2 are in their correct position",
+            checkGuess("afedzy",
+                    "a( GREEN )f( YELLOW )e( GREEN )d( YELLOW )z( RED )y( RED )",
                     pastGuesses.get(1));
-            checkGuess("adefph", 5, 4,
-                    "5 of those characters are in the password, and 4 are in their correct position",
+            checkGuess("adefph",
+                    "a( GREEN )d( GREEN )e( GREEN )f( GREEN )p( RED )h( YELLOW )",
                     pastGuesses.get(2));
         } catch (IOException e) {
             fail("Exception should not have been thrown");

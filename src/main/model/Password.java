@@ -1,79 +1,92 @@
 package model;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.List;
+
+import static org.apache.commons.lang3.RandomStringUtils.*;
+
 
 public class Password extends Sequence implements Writable {
-    protected int charGuessed;
-    protected int charNotGuessed;
-    protected boolean isGuessed;
-    protected Random rand;
+    public enum Type { NUMERIC, ALPHABETIC, NUMALPHA, ASCII }
 
-    public Password() {
-        super();
-        charGuessed = 0;
-        charNotGuessed = LENGTH;
-        isGuessed = false;
-        rand = new Random();
+    protected boolean guessed;
+    protected List<Character> passwordDisplay;
+
+    //EFFECTS: creates a new password
+    //         guessed is set to false
+    //         a new passwordDisplay is created
+    public Password(Type passwordType) {
+        super(randomizePasswordContent(passwordType));
+        guessed = false;
+        passwordDisplay = createDisplay();
+        contentAsElements = contentToElementList();
     }
 
-    public int getCharGuessed() {
-        return charGuessed;
+    public static String randomizePasswordContent(Type passwordType) {
+        String result = "random";
+        switch (passwordType) {
+            case NUMERIC:
+                result = randomNumeric(LENGTH);
+                break;
+            case ALPHABETIC:
+                result = randomAlphabetic(LENGTH).toLowerCase();
+                break;
+            case NUMALPHA:
+                result = randomAlphanumeric(LENGTH).toLowerCase();
+                break;
+            case ASCII:
+                result = randomAscii(LENGTH).toLowerCase();
+                break;
+        }
+        return result;
     }
 
-    public void setCharGuessed(int charGuessed) {
-        this.charGuessed = charGuessed;
-    }
-
-    public int getCharNotGuessed() {
-        return charNotGuessed;
-    }
-
-    public void setCharNotGuessed(int charNotGuessed) {
-        this.charNotGuessed = charNotGuessed;
-    }
-
-    public ArrayList<Character> getPasswordContent() {
+    public String getPasswordContent() {
         return content;
     }
 
-    //MODIFIES: this
-    //EFFECTS: sets the password content to a specific sequence
     public void setPasswordContent(String userInput) {
-        content.clear();
-        for (int i = 0; i < userInput.length(); i++) {
-            content.add(i, userInput.charAt(i));
-        }
+        content = userInput;
+        contentAsElements = contentToElementList();
     }
 
     public boolean getIsGuessed() {
-        return isGuessed;
+        return guessed;
     }
 
     public void setIsGuessed(boolean value) {
-        isGuessed = value;
+        guessed = value;
     }
 
-    //REQUIRES: 0 < correctChar >= LENGTH
+    public List<Character> getPasswordDisplay() {
+        return passwordDisplay;
+    }
+
+    //EFFECTS: creates a new list that represents which parts of the password have been guessed
+    public List<Character> createDisplay() {
+        List<Character> display = new ArrayList<>();
+
+        for (int i = 0; i < Sequence.LENGTH; i++) {
+            display.add('*');
+        }
+
+        return display;
+    }
+
     //MODIFIES: this
-    //EFFECTS: updates the number of guessed characters in the password
-    //         removes # of guessed characters from charNotGuessed
-    public void updateCharGuessed(int correctChar) {
-        charGuessed += correctChar;
-        charNotGuessed -= correctChar;
+    //EFFECTS: adds a character to the passwordDisplay
+    public void revealCharacter(int index, char character) {
+        passwordDisplay.set(index, character);
     }
 
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("charGuessed", charGuessed);
-        json.put("charNotGuessed", charNotGuessed);
-        json.put("isGuessed", isGuessed);
-        json.put("content", contentToString());
+        json.put("guessed", guessed);
+        json.put("content", content);
 
         return json;
     }

@@ -1,22 +1,19 @@
 package persistence;
 
-import model.AlphaGuess;
 import model.Guess;
 import model.Password;
-import ui.PasswordApp;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.json.*;
 import ui.PasswordGame;
 
 // Represents a reader that reads PasswordGame from JSON data stored in file
+// Adapted from given JSONExample file
 public class JsonReader {
     private String source;
 
@@ -44,6 +41,7 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
+    //EFFECTS: creates a new password game that is then loaded with saved data
     private PasswordGame parsePasswordGame(JSONObject jsonObject) {
         PasswordGame pg = new PasswordGame();
         loadPassword(pg, jsonObject);
@@ -51,20 +49,20 @@ public class JsonReader {
         return pg;
     }
 
+    //MODIFIES: Password, PasswordGame
+    //EFFECTS: loads previous password from save data into game
     private void loadPassword(PasswordGame pg, JSONObject pgObject) {
         JSONObject password = pgObject.getJSONObject("password");
-        int charGuessed = password.getInt("charGuessed");
-        int charNotGuessed = password.getInt("charNotGuessed");
-        boolean isGuessed = password.getBoolean("isGuessed");
+        boolean guessed = password.getBoolean("guessed");
         String content = password.getString("content");
 
         Password pw = pg.getPassword();
-        pw.setCharGuessed(charGuessed);
-        pw.setCharNotGuessed(charNotGuessed);
-        pw.setIsGuessed(isGuessed);
+        pw.setIsGuessed(guessed);
         pw.setPasswordContent(content);
     }
 
+    //MODIFIES: PasswordGame
+    //EFFECTS: loads list of past guesses from save data into game
     private void addPastGuesses(PasswordGame pg, JSONObject pgObject) {
         JSONArray jsonArray = pgObject.getJSONArray("pastGuesses");
         for (Object json : jsonArray) {
@@ -73,15 +71,12 @@ public class JsonReader {
         }
     }
 
+    //EFFECTS: loads each past guess from save data into game
     private void loadGuess(PasswordGame pg, JSONObject nextGuess) {
-        int numCharCorrect = nextGuess.getInt("numCharCorrect");
-        int numCharCorrectPos = nextGuess.getInt("numCharCorrectPos");
         String content = nextGuess.getString("content");
 
-        AlphaGuess guess = new AlphaGuess(content);
-        guess.setNumCharCorrect(numCharCorrect);
-        guess.setNumCharCorrectPos(numCharCorrectPos);
-        guess.updateHint();
+        Guess guess = new Guess(content);
+        guess.compareToPassword(pg.getPassword());
         pg.getPastGuesses().add(guess);
     }
 }

@@ -1,29 +1,26 @@
 package ui;
 
-import model.AlphaGuess;
-import model.AlphaPassword;
 import model.Guess;
 import model.Password;
+import model.Sequence;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import persistence.JsonReader;
 import persistence.JsonWriter;
 import persistence.Writable;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class PasswordGame implements Writable {
     public static final String JSON_STORE = "./data/passwordgame.json";
 
-    private AlphaPassword password;
-    private ArrayList<AlphaGuess> pastGuesses;
+    private Password password;
+    private List<Guess> pastGuesses;
     private Scanner input;
     private String userInput;
     private JsonWriter jsonWriter;
-    private JsonReader jsonReader;
     private boolean continueGame;
 
 
@@ -33,16 +30,46 @@ public class PasswordGame implements Writable {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         userInput = null;
-        password = new AlphaPassword();
+        password = new Password(Password.Type.NUMERIC);
         pastGuesses = new ArrayList<>();
         jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE);
         continueGame = true;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: chooses which type of password to generate based on user input
+    public void choosePasswordType() {
+        displayPasswordTypeMenu();
+        userInput = input.next();
+        switch (userInput) {
+            case "1":
+                password = new Password(Password.Type.NUMERIC);
+                break;
+            case "2":
+                password = new Password(Password.Type.ALPHABETIC);
+                break;
+            case "3":
+                password = new Password(Password.Type.NUMALPHA);
+                break;
+            case "4":
+                password = new Password(Password.Type.ASCII);
+                break;
+        }
+    }
+
+    //EFFECTS: displays menu with types of passwords to choose
+    private void displayPasswordTypeMenu() {
+        System.out.println("\nWhat kind of password would you like to generate?");
+        System.out.println("\t1 --> numeric (could only contain numbers 1-9)");
+        System.out.println("\t2 --> alphabetical (could only contain the 26 letters in the alphabet");
+        System.out.println("\t3 --> alphabetical + numeric (could contain numbers 1-9 and 26 letters in the alphabet");
+        System.out.println("\t4 --> ascii (could contain any ascii character - i.e. $, %, etc)");
     }
 
     //EFFECTS: displays the in-game menu
     private void displayGameMenu() {
         System.out.println("\nTry to guess the password!");
+        System.out.println("\nPassword: " + password.getPasswordDisplay().toString());
         System.out.println("\tg --> make a guess");
         System.out.println("\td --> show past guesses");
         System.out.println("\ts --> save my progress for later and return to main menu");
@@ -88,32 +115,22 @@ public class PasswordGame implements Writable {
         }
     }
 
-//    //MODIFIES: this
-//    //EFFECTS: loads password game from file
-//    public void loadPasswordGame() {
-//        try {
-//            jsonReader.read();
-//        } catch (IOException e) {
-//            System.out.println();
-//        }
-//    }
-
     //MODIFIES: this
     //EFFECTS: creates a new guess using the user's input
     //         compares guess to password
     //         stops game if password is guessed
     private void makeAGuess() {
-        System.out.println("Please enter your " + AlphaPassword.LENGTH + " character guess:");
+        System.out.println("Please enter your " + Sequence.LENGTH + " character guess:");
         userInput = input.next();
-        if (userInput.length() < AlphaPassword.LENGTH) {
-            System.out.println("Your guess has to be " + AlphaPassword.LENGTH + " characters long!");
+        if (userInput.length() < Sequence.LENGTH) {
+            System.out.println("Your guess has to be " + Sequence.LENGTH + " characters long!");
         } else {
-            AlphaGuess currentGuess = new AlphaGuess(userInput);
+            Guess currentGuess = new Guess(userInput);
             currentGuess.compareToPassword(password);
             if (!password.getIsGuessed()) {
                 currentGuess.updateHint();
                 pastGuesses.add(currentGuess);
-                System.out.println(currentGuess);
+                System.out.println(currentGuess.getHint());
             } else {
                 System.out.println("You have guessed the password!");
                 continueGame = false;
@@ -125,9 +142,8 @@ public class PasswordGame implements Writable {
     //MODIFIES: this
     //EFFECTS: makeAGuess with provided string as guess content
     public void makeAGuess(String content) {
-        AlphaGuess guess = new AlphaGuess(content);
+        Guess guess = new Guess(content);
         guess.compareToPassword(password);
-        guess.updateHint();
         pastGuesses.add(guess);
     }
 
@@ -138,8 +154,8 @@ public class PasswordGame implements Writable {
             System.out.println("You have not made any guesses!");
         } else {
             System.out.println("These are your past guesses:");
-            for (AlphaGuess pastGuess : pastGuesses) {
-                System.out.println(pastGuess);
+            for (Guess pastGuess : pastGuesses) {
+                System.out.println(pastGuess.getHint());
             }
         }
     }
@@ -161,6 +177,7 @@ public class PasswordGame implements Writable {
         return json;
     }
 
+    //EFFECTS: adds pastGuesses to data being saved.
     private JSONArray pastGuessesToJson() {
         JSONArray jsonArray = new JSONArray();
 
@@ -175,7 +192,7 @@ public class PasswordGame implements Writable {
         return password;
     }
 
-    public ArrayList<AlphaGuess> getPastGuesses() {
+    public List<Guess> getPastGuesses() {
         return pastGuesses;
     }
 }

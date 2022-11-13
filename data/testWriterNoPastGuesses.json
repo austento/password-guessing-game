@@ -1,1 +1,1 @@
-{"password":{"charGuessed":0,"isGuessed":false,"charNotGuessed":6,"content":"abcdef"},"pastGuesses":[]}
+{"password":{"guessed":false,"content":"abcdef"},"pastGuesses":[]}

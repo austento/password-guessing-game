@@ -1,11 +1,12 @@
 package persistence;
 
-import model.AlphaGuess;
+import model.Guess;
 import org.junit.jupiter.api.Test;
 import ui.PasswordGame;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,11 +24,11 @@ public class JsonReaderTest extends JsonTest {
 
     @Test
     void testReaderNoPastGuesses() {
-        JsonReader reader = new JsonReader("./data/testWriterNoPastGuesses");
+        JsonReader reader = new JsonReader("./data/testWriterNoPastGuesses.json");
         try {
             PasswordGame pg = reader.read();
             assertEquals(0, pg.getPastGuesses().size());
-            checkPassword("adefhi",4,2, false, pg.getPassword());
+            checkPassword("abcdef",false, pg.getPassword());
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
@@ -38,17 +39,17 @@ public class JsonReaderTest extends JsonTest {
         JsonReader reader = new JsonReader("./data/testWriterSomePastGuesses.json");
         try {
             PasswordGame pg = reader.read();
-            checkPassword("adefhi",4, 2, false, pg.getPassword());
-            ArrayList<AlphaGuess> pastGuesses = pg.getPastGuesses();
+            checkPassword("adefhi",false, pg.getPassword());
+            List<Guess> pastGuesses = pg.getPastGuesses();
             assertEquals(3, pastGuesses.size());
-            checkGuess("abcdef",4,1,
-                    "4 of those characters are in the password, and 1 are in their correct position",
+            checkGuess("abcdef",
+                    "a( GREEN )b( RED )c( RED )d( YELLOW )e( YELLOW )f( YELLOW )",
                     pastGuesses.get(0));
-            checkGuess("afedzy",4, 2,
-                    "4 of those characters are in the password, and 2 are in their correct position",
+            checkGuess("afedzy",
+                    "a( GREEN )f( YELLOW )e( GREEN )d( YELLOW )z( RED )y( RED )",
                     pastGuesses.get(1));
-            checkGuess("adefph", 5, 4,
-                    "5 of those characters are in the password, and 4 are in their correct position",
+            checkGuess("adefph",
+                    "a( GREEN )d( GREEN )e( GREEN )f( GREEN )p( RED )h( YELLOW )",
                     pastGuesses.get(2));
         } catch (IOException e) {
             fail("Couldn't read from file");
