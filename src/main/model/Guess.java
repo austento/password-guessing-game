@@ -22,6 +22,10 @@ public class Guess extends Sequence implements Writable {
         return content;
     }
 
+    public List<Element> getContentAsElements() {
+        return contentAsElements;
+    }
+
     //MODIFIES: this
     //          Password
     //EFFECTS: compares this Guess to Password passed as param
