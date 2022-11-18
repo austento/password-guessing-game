@@ -26,23 +26,17 @@ public class Password extends Sequence implements Writable {
     }
 
     //EFFECTS: chooses which kind of password to randomize and randomizes it
+    //code adapted from: https://stackoverflow.com/questions/59990633/condition-coverage-on-switch-statement
     public static String randomizePasswordContent(Type passwordType) {
-        String result = "random";
-        switch (passwordType) {
-            case NUMERIC:
-                result = randomNumeric(LENGTH);
-                break;
-            case ALPHABETIC:
-                result = randomAlphabetic(LENGTH).toLowerCase();
-                break;
-            case NUMALPHA:
-                result = randomAlphanumeric(LENGTH).toLowerCase();
-                break;
-            case ASCII:
-                result = randomAscii(LENGTH).toLowerCase();
-                break;
+        if (passwordType == Type.NUMERIC) {
+            return randomNumeric(LENGTH);
+        } else if (passwordType == Type.ALPHABETIC) {
+            return randomAlphabetic(LENGTH).toLowerCase();
+        } else if (passwordType == Type.NUMALPHA) {
+            return randomAlphanumeric(LENGTH).toLowerCase();
+        } else {
+            return randomAscii(LENGTH).toLowerCase();
         }
-        return result;
     }
 
     public String getPasswordContent() {

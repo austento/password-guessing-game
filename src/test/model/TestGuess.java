@@ -3,6 +3,9 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestGuess {
@@ -29,6 +32,26 @@ public class TestGuess {
         assertTrue(testGuess.contentAsElements.contains(new Element("d",3)));
         assertTrue(testGuess.contentAsElements.contains(new Element("e",4)));
         assertTrue(testGuess.contentAsElements.contains(new Element("f",5)));
+    }
+
+    @Test
+    void testElementsToList() {
+        Element e1 = new Element("a",0);
+        Element e2 = new Element("b",1);
+        Element e3 = new Element("c",2);
+        Element e4 = new Element("d",3);
+        Element e5 = new Element("e",4);
+        Element e6 = new Element("f",5);
+
+        List<Element> elementList = new ArrayList<>();
+        elementList.add(e1);
+        elementList.add(e2);
+        elementList.add(e3);
+        elementList.add(e4);
+        elementList.add(e5);
+        elementList.add(e6);
+
+        assertEquals(elementList,testGuess.getContentAsElements());
     }
 
     @Test
