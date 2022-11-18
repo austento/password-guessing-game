@@ -38,6 +38,12 @@ class TestPassword {
     }
 
     @Test
+    void testConstructorNoType() {
+        Password testBadPass = new Password(null);
+        assertEquals("random",testBadPass.content);
+    }
+
+    @Test
     void testSetPasswordContent() {
         testAlphaPass.setPasswordContent("abcdef");
         assertEquals("abcdef", testAlphaPass.getPasswordContent());

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+// Represents a playable game where user can randomly generate a password and guess it
 public class PasswordGame implements Writable {
     public static final String JSON_STORE = "./data/passwordgame.json";
 
@@ -192,8 +193,16 @@ public class PasswordGame implements Writable {
         return password;
     }
 
+    public void setPassword(Password password) {
+        this.password.setPasswordContent(password.getPasswordContent());
+    }
+
     public List<Guess> getPastGuesses() {
         return pastGuesses;
+    }
+
+    public void setPastGuesses(List<Guess> pastGuesses) {
+        this.pastGuesses = pastGuesses;
     }
 }
 

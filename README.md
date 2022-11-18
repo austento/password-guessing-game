@@ -27,3 +27,13 @@ a hint that is helpful to the user.
 - As a user, I want to be able to save my progress on guessing a password
 - As a user, I want to be able to reload my progress on guessing an existing password
 
+## Instructions for Grader
+1. Run program from main
+2. Choose "start new game" to start a new game - I suggest to choose the "numeric" password type for simplicity but feel free to pick any type
+3. Once the game window opens, click the "menu" button and click "make a guess"
+4. You can generate the first required event by entering a guess into the text field and pressing ok - you will see your guess appear in the game window
+5. Click "menu" again and click "check accuracy" - this will generate the second required event
+6. My visual component appears when you guess the password correctly. 
+7. You can save your progress guessing a password by clicking "menu" and then clicking "save your progress"
+8. You can load your previous progress from the "load game" button located in the main menu - to return to the main menu from an active game
+click "menu" and then click "return to main menu"

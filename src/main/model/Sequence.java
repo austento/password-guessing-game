@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+//Represents a sequence of a certain length that consists of Elements
 public abstract class Sequence {
     public static final int LENGTH = 6;
 
@@ -10,7 +11,7 @@ public abstract class Sequence {
     protected List<Element> contentAsElements;
 
     public Sequence(String input) {
-        content = input;
+        content = input.toLowerCase();
     }
 
     public List<Character> contentToList() {

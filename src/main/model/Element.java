@@ -2,6 +2,7 @@ package model;
 
 import java.util.Objects;
 
+// Represents one element at a specific index in a Sequence.
 public class Element {
     public enum Colour { GREEN, YELLOW, RED }
 
@@ -9,6 +10,7 @@ public class Element {
     private final int location;
     private Colour displayColour;
 
+    //EFFECTS: constructs an element with given String and location
     public Element(String content, int location) {
         this.character = content.charAt(0);
         this.location = location;
@@ -30,6 +32,7 @@ public class Element {
         displayColour = colour;
     }
 
+    //EFFECTS: compares two elements for equality
     @Override
     public boolean equals(Object o) {
         if (this == o) {

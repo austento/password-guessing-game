@@ -57,4 +57,23 @@ public class TestElement {
 
         assertEquals(testE3,testE1);
     }
+
+    @Test
+    void testEqualNull() {
+        boolean result = testE1.equals(null);
+        assertFalse(result);
+    }
+
+    @Test
+    void testEqualWrongClass() {
+        boolean result = testE1.equals("testE1");
+        assertFalse(result);
+    }
+
+    @Test
+    void testHashCode() {
+        int e1Hash = testE1.hashCode();
+        int e2Hash = testE2.hashCode();
+        assertNotEquals(e1Hash, e2Hash);
+    }
 }

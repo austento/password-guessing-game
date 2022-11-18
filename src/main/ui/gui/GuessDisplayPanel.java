@@ -7,15 +7,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class GuessPanel extends JPanel {
+//Represents a panel that creates a visual representation of a guess made by the user
+public class GuessDisplayPanel extends JPanel {
     private Guess guess;
 
-    public GuessPanel(Guess guess) {
+    //EFFECTS: constructs a new GuessDisplayPanel that visualizes the Guess passed as param
+    public GuessDisplayPanel(Guess guess) {
         this.guess = guess;
-        displayGuess();
+        displayGuessPanel();
     }
 
-    private void displayGuess() {
+    //EFFECTS: creates display of the Guess
+    private void displayGuessPanel() {
         List<Element> elementList = guess.getContentAsElements();
 
         for (Element element: elementList) {
@@ -24,6 +27,7 @@ public class GuessPanel extends JPanel {
         }
     }
 
+    //EFFECTS: creates display of each Element in Guess
     private JPanel constructElementBox(Element element) {
         char elementCharacter = element.getCharacter();
         Element.Colour displayColour = element.getDisplayColour();
@@ -50,4 +54,6 @@ public class GuessPanel extends JPanel {
 
         return elementBox;
     }
+
+
 }

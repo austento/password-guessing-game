@@ -5,9 +5,11 @@ import persistence.Writable;
 
 import java.util.List;
 
+// Represents a guess that also has an associated hint
 public class Guess extends Sequence implements Writable {
     protected String hint;
 
+    //EFFECTS: constructs a new guess with content passed as param
     public Guess(String userInput) {
         super(userInput);
         hint = "";

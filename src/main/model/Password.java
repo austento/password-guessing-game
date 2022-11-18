@@ -8,14 +8,14 @@ import java.util.List;
 
 import static org.apache.commons.lang3.RandomStringUtils.*;
 
-
+// Represents a password for the user to guess - can have one of four types
 public class Password extends Sequence implements Writable {
     public enum Type { NUMERIC, ALPHABETIC, NUMALPHA, ASCII }
 
     protected boolean guessed;
     protected List<Character> passwordDisplay;
 
-    //EFFECTS: creates a new password
+    //EFFECTS: creates a new randomized password
     //         guessed is set to false
     //         a new passwordDisplay is created
     public Password(Type passwordType) {
@@ -25,6 +25,7 @@ public class Password extends Sequence implements Writable {
         contentAsElements = contentToElementList();
     }
 
+    //EFFECTS: chooses which kind of password to randomize and randomizes it
     public static String randomizePasswordContent(Type passwordType) {
         String result = "random";
         switch (passwordType) {
