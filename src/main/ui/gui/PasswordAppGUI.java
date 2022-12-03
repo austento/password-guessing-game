@@ -4,7 +4,7 @@ import model.Event;
 import model.EventLog;
 import model.Guess;
 import model.Password;
-import persistence.JsonReader;
+import model.persistence.JsonReader;
 import ui.PasswordGame;
 
 import javax.swing.*;

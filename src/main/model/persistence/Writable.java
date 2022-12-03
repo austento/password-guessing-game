@@ -1,4 +1,4 @@
-package persistence;
+package model.persistence;
 
 import org.json.JSONObject;
 

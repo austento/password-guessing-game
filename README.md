@@ -71,3 +71,11 @@ Password of type NUMERIC and content 637314 created
 
 Fri Dec 02 17:39:03 PST 2022
 Game progress saved
+
+# Phase 4: Part 3
+- The biggest issue I noticed is that the PasswordGamePanel (PGP) class is not very cohesive - it has functions to display a graphical ui, as well as saving progress, and keeping a list of Guesses
+- I would refactor the Password and PGP classes so that Password would have a list field of type Sequence instead of PGP having a list field of type Guess
+- This would allow PGP to not have to rely on Guess or be doing any work outside displaying the game panel
+- The save and load functions could now be moved from the PGP and PasswordAppGUI classes respectively to the Password class which would again let these classes focus on displaying graphics
+- Additionally, after making this change the Sequence, Password, and Guess classes would somewhat follow the composite design pattern - where Sequence is the component, Password is the composite, and Guess is the leaf
+- Although it doesn't necessarily make sense that a password could have both guesses and other passwords associated with it within the context of my current application, I think it could be useful for future implementations

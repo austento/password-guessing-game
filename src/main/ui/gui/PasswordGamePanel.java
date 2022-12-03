@@ -4,7 +4,7 @@ import model.Element;
 import model.Guess;
 import model.Password;
 import model.Sequence;
-import persistence.JsonWriter;
+import model.persistence.JsonWriter;
 import ui.PasswordGame;
 
 import javax.swing.*;

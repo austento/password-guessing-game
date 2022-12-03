@@ -1,4 +1,4 @@
-package persistence;
+package model.persistence;
 
 import model.Event;
 import model.EventLog;

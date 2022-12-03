@@ -5,8 +5,8 @@ import model.Password;
 import model.Sequence;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import persistence.JsonWriter;
-import persistence.Writable;
+import model.persistence.JsonWriter;
+import model.persistence.Writable;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;

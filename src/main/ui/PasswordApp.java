@@ -1,6 +1,6 @@
 package ui;
 
-import persistence.JsonReader;
+import model.persistence.JsonReader;
 
 import java.io.IOException;
 import java.util.Scanner;

@@ -3,6 +3,7 @@ package persistence;
 import model.Event;
 import model.EventLog;
 import model.Guess;
+import model.persistence.JsonReader;
 import org.junit.jupiter.api.Test;
 import ui.PasswordGame;
 
