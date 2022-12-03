@@ -1,5 +1,7 @@
 package persistence;
 
+import model.Event;
+import model.EventLog;
 import model.Guess;
 import org.junit.jupiter.api.Test;
 import ui.PasswordGame;
@@ -11,6 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonReaderTest extends JsonTest {
+
     @Test
     void testReaderNonExistentFile() {
         JsonReader reader = new JsonReader("./data/NonExistentFile.json");
@@ -54,6 +57,26 @@ public class JsonReaderTest extends JsonTest {
         } catch (IOException e) {
             fail("Couldn't read from file");
         }
+    }
+
+    @Test
+    void testReadEventAddToLog() {
+        JsonReader reader = new JsonReader("./data/testWriterSomePastGuesses.json");
+        List<String> events = new ArrayList<>();
+        EventLog.getInstance().clear();
+
+        try {
+            reader.read();
+        } catch (IOException e) {
+            fail("Couldn't read file");
+        }
+
+        EventLog el = EventLog.getInstance();
+        for (Event event: el) {
+            events.add(event.getDescription());
+        }
+
+        assertTrue(events.contains("Game progress loaded"));
     }
 
 

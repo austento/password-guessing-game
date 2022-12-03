@@ -23,6 +23,8 @@ public class Password extends Sequence implements Writable {
         guessed = false;
         passwordDisplay = createDisplay();
         contentAsElements = contentToElementList();
+        EventLog.getInstance().logEvent(new Event("Password of type " + passwordType + " and content "
+                + content + " created"));
     }
 
     //EFFECTS: chooses which kind of password to randomize and randomizes it
@@ -75,6 +77,7 @@ public class Password extends Sequence implements Writable {
     //EFFECTS: adds a character to the passwordDisplay
     public void revealCharacter(int index, char character) {
         passwordDisplay.set(index, character);
+        EventLog.getInstance().logEvent(new Event("Element: " + character + index + " was guessed"));
     }
 
     @Override

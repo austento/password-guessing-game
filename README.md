@@ -37,3 +37,37 @@ a hint that is helpful to the user.
 7. You can save your progress guessing a password by clicking "menu" and then clicking "save your progress"
 8. You can load your previous progress from the "load game" button located in the main menu - to return to the main menu from an active game
 click "menu" and then click "return to main menu"
+
+## Phase 4: Task 2
+Fri Dec 02 17:38:52 PST 2022
+Password of type ALPHABETIC and content cqmscv created
+
+Fri Dec 02 17:38:59 PST 2022
+New guess added: abceef
+
+Fri Dec 02 17:38:59 PST 2022
+Element: a0 changes colour to RED
+
+Fri Dec 02 17:38:59 PST 2022
+Element: b1 changes colour to RED
+
+Fri Dec 02 17:38:59 PST 2022
+Element: c2 changes colour to YELLOW
+
+Fri Dec 02 17:38:59 PST 2022
+Element: e3 changes colour to RED
+
+Fri Dec 02 17:38:59 PST 2022
+Element: e4 changes colour to RED
+
+Fri Dec 02 17:38:59 PST 2022
+Element: f5 changes colour to RED
+
+Fri Dec 02 17:38:59 PST 2022
+Guess: abceef added to past guesses
+
+Fri Dec 02 17:39:03 PST 2022
+Password of type NUMERIC and content 637314 created
+
+Fri Dec 02 17:39:03 PST 2022
+Game progress saved

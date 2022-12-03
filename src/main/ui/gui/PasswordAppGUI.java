@@ -1,5 +1,7 @@
 package ui.gui;
 
+import model.Event;
+import model.EventLog;
 import model.Guess;
 import model.Password;
 import persistence.JsonReader;
@@ -7,8 +9,7 @@ import ui.PasswordGame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
@@ -35,6 +36,14 @@ public class PasswordAppGUI extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setResizable(false);
 
+        // Code from @1675 on course piazza
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                printLog(EventLog.getInstance());
+            }
+        });
+
         cardLayout = new CardLayout();
         mainContentPanel = new JPanel(cardLayout);
 
@@ -45,6 +54,15 @@ public class PasswordAppGUI extends JFrame implements ActionListener {
         add(BorderLayout.CENTER,mainContentPanel);
         setVisible(true);
     }
+
+    //EFFECTS: prints log to console
+    private void printLog(EventLog el) {
+        for (Event event: el) {
+            String content = event.toString();
+            System.out.println("\n" + content);
+        }
+    }
+
 
     //MODIFIES: this
     //EFFECTS: creates the main menu

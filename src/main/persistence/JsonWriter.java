@@ -1,5 +1,7 @@
 package persistence;
 
+import model.Event;
+import model.EventLog;
 import org.json.JSONObject;
 import ui.PasswordGame;
 
@@ -29,6 +31,7 @@ public class JsonWriter {
     public void write(PasswordGame pg) {
         JSONObject json = pg.toJson();
         saveToFile(json.toString());
+        EventLog.getInstance().logEvent(new Event("Game progress saved"));
     }
 
     //MODIFIES: this

@@ -1,5 +1,7 @@
 package persistence;
 
+import model.Event;
+import model.EventLog;
 import model.Guess;
 import model.Password;
 
@@ -27,6 +29,7 @@ public class JsonReader {
     public PasswordGame read() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
+        EventLog.getInstance().logEvent(new Event("Game progress loaded"));
         return parsePasswordGame(jsonObject);
     }
 

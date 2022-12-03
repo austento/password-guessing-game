@@ -3,6 +3,9 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static model.Element.Colour.GREEN;
 import static model.Element.Colour.YELLOW;
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,11 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestElement {
     Element testE1;
     Element testE2;
+    List<String> events;
 
     @BeforeEach
     void runBefore() {
         testE1 = new Element("a",1);
         testE2 = new Element("b", 2);
+        events = new ArrayList<>();
+        EventLog.getInstance().clear();
     }
 
     @Test
@@ -75,5 +81,17 @@ public class TestElement {
         int e1Hash = testE1.hashCode();
         int e2Hash = testE2.hashCode();
         assertNotEquals(e1Hash, e2Hash);
+    }
+
+    @Test
+    void testChangeColourAddEventToLog() {
+        testE1.setDisplayColour(YELLOW);
+
+        EventLog el = EventLog.getInstance();
+        for (Event event: el) {
+            events.add(event.getDescription());
+        }
+
+        assertTrue(events.contains("Element: a1 changes colour to YELLOW"));
     }
 }

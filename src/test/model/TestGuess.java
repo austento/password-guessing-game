@@ -12,12 +12,15 @@ public class TestGuess {
     private Guess testGuess;
     private Guess testGuess2;
     private Password testPass;
+    private List<String> events;
 
     @BeforeEach
     void runBefore() {
         testGuess = new Guess("abcdef");
         testGuess2 = new Guess("wwwduk");
         testPass = new Password(Password.Type.ALPHABETIC);
+        EventLog.getInstance().clear();
+        events = new ArrayList<>();
     }
 
     @Test
@@ -32,6 +35,18 @@ public class TestGuess {
         assertTrue(testGuess.contentAsElements.contains(new Element("d",3)));
         assertTrue(testGuess.contentAsElements.contains(new Element("e",4)));
         assertTrue(testGuess.contentAsElements.contains(new Element("f",5)));
+    }
+
+    @Test
+    void testConstructorEventAddedToLog() {
+        new Guess("abcdef");
+
+        EventLog el = EventLog.getInstance();
+        for (Event event: el) {
+            events.add(event.getDescription());
+        }
+
+        assertTrue(events.contains("New guess added: abcdef"));
     }
 
     @Test
@@ -60,6 +75,13 @@ public class TestGuess {
         testGuess.compareToPassword(testPass);
 
         assertEquals("a( RED )b( RED )c( RED )d( RED )e( RED )f( RED )",testGuess.getHint());
+
+        EventLog el = EventLog.getInstance();
+        for (Event event: el) {
+            events.add(event.getDescription());
+        }
+
+        assertTrue(events.contains("Guess: abcdef added to past guesses"));
     }
 
     @Test
@@ -84,5 +106,12 @@ public class TestGuess {
         testGuess.compareToPassword(testPass);
 
         assertTrue(testPass.getIsGuessed());
+
+        EventLog el = EventLog.getInstance();
+        for (Event event: el) {
+            events.add(event.getDescription());
+        }
+
+        assertTrue(events.contains("Password: abcdef was guessed"));
     }
 }

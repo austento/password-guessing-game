@@ -1,5 +1,7 @@
 package persistence;
 
+import model.Event;
+import model.EventLog;
 import model.Guess;
 import ui.PasswordGame;
 
@@ -7,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JsonWriterTest extends JsonTest {
@@ -72,5 +75,27 @@ public class JsonWriterTest extends JsonTest {
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }
+    }
+
+    @Test
+    void testWriteEventAddToLog() {
+        JsonWriter writer = new JsonWriter("./data/testWriterSomePastGuesses.json");
+        List<String> events = new ArrayList<>();
+        EventLog.getInstance().clear();
+
+        try {
+            writer.open();
+            writer.write(new PasswordGame());
+            writer.close();
+        } catch (IOException e) {
+            fail("Couldn't write file");
+        }
+
+        EventLog el = EventLog.getInstance();
+        for (Event event: el) {
+            events.add(event.getDescription());
+        }
+
+        assertTrue(events.contains("Game progress saved"));
     }
 }

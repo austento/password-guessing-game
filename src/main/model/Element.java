@@ -30,6 +30,8 @@ public class Element {
 
     public void setDisplayColour(Colour colour) {
         displayColour = colour;
+        EventLog.getInstance().logEvent(new Event("Element: " + character + location + " changes colour to "
+                + colour));
     }
 
     //EFFECTS: compares two elements for equality

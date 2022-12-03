@@ -100,7 +100,7 @@ public class GuessEntryPanel extends JPanel implements ActionListener {
         Guess guess = new Guess(guessContent);
         guess.compareToPassword(password);
         if (password.getIsGuessed()) {
-            ImageIcon unlockImage = new ImageIcon("src/main/ui/gui/images/unlock_animaiton.gif");
+            ImageIcon unlockImage = new ImageIcon("data/unlock_animaiton.gif");
             JOptionPane.showMessageDialog(panel,"you guessed the password!" + "\nscore: " + panel.calculateScore(),
                     "success!", JOptionPane.INFORMATION_MESSAGE,unlockImage);
         } else {
